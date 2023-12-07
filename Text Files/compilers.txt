@@ -1,0 +1,3 @@
+/opt/homebrew/bin/g++
+
+/usr/bin/c++

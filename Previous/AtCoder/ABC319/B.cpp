@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define ld long double
+#define pii pair<int, int>
+#define pll pair<ll, ll>
+using namespace std;
+
+#define int ll
+//const int MOD = 998244353;
+const int MOD = 1000000007;
+const int INF = 1e15;
+
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >> n;
+
+    vector<int> div;
+    for (int j = 1; j <= 9; j++) {
+        if (n % j == 0) div.push_back(j);
+    }
+
+    string s = "1";
+    for (int i = 1; i <= n; i++) {
+        int curr = -1;
+        for (int j : div) {
+            if (n % j == 0 && i % (n / j) == 0) {
+                curr = j;
+                break;
+            }
+        }
+        if (curr == -1) s += '-';
+        else s += to_string(curr);
+    }
+    cout << s << '\n';
+}

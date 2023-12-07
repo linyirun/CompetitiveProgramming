@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define ld long double
+#define pii pair<int, int>
+#define pll pair<ll, ll>
+using namespace std;
+
+#define int ll
+//const int MOD = 998244353;
+const int MOD = 1000000007;
+const int INF = 1e15;
+
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int tt;
+    cin >> tt;
+
+    const int MAX = 101;
+    while (tt--) {
+        int n;
+        cin >> n;
+
+        vector<int> a(n), b(n, 1);
+        vector<vector<int>> ind(MAX);
+        vector<int> groups;
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+            ind[a[i]].push_back(i);
+            if (ind[a[i]].size() == 2) {
+                groups.push_back(a[i]);
+            }
+        }
+
+        if (groups.size() >= 2) {
+            b[ind[groups[0]][0]] = 2;
+            b[ind[groups[1]][0]] = 3;
+            for (int i : b) cout << i << ' ';
+            cout << '\n';
+        } else cout << "-1\n";
+
+    }
+}
