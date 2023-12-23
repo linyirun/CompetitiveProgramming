@@ -21,16 +21,5 @@ int32_t main() {
         int n;
         cin >> n;
 
-        string s;
-        cin >> s;
-
-        int rmost_b = -1;
-        int first_a = n;
-        for (int i = 0; i < n; i++) {
-            if (s[i] == 'B') rmost_b = i;
-            else first_a = min(first_a, i);
-        }
-
-        cout << max(0LL, rmost_b - first_a) << '\n';
     }
 }

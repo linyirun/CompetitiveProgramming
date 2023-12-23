@@ -18,63 +18,8 @@ int32_t main() {
     cin >> tt;
 
     while (tt--) {
-        int n, x;
-        cin >> n >> x;
+        int n;
+        cin >> n;
 
-        vector<pii> a(n);
-        vector<int> b(n);
-        for (int i = 0; i < n; i++) {
-            cin >> a[i].first;
-            a[i].second = i;
-        }
-        multiset<int> s;
-        for (int i = 0; i < n; i++) {
-            int num;
-            cin >> num;
-            b[i] = num;
-            s.insert(num);
-        }
-
-        sort(a.begin(), a.end());
-        sort(b.begin(), b.end());
-        vector<int> ans(n);
-
-        bool can = true;
-
-        // first x elements, need a[n - i - 1] > b[n - i - 1]
-        int cnt = 0;
-        for (int i = n - 1; i >= n - x; i--) {
-            int num = b[x - cnt - 1];
-
-            if (num >= a[i].first) {
-                can = false;
-                break;
-            } else {
-                ans[a[i].second] = num;
-                s.erase(s.find(num));
-            }
-            cnt++;
-        }
-
-        for (int i = n - x - 1; i >= 0; i--) {
-            auto it = s.lower_bound(a[i].first);
-
-            if (it == s.end()) {
-                can = false;
-                break;
-            } else {
-                ans[a[i].second] = *it;
-                s.erase(it);
-            }
-        }
-
-        if (can) {
-            cout << "YES\n";
-            for (int i : ans) cout << i << ' ';
-            cout << '\n';
-
-        } else {
-            cout << "NO\n";
-        }
     }
 }
