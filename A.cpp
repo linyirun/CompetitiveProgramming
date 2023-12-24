@@ -21,5 +21,23 @@ int32_t main() {
         int n;
         cin >> n;
 
+        vector<int> quad(4);
+        for (int i = 0; i < n; i++) {
+            int x, y;
+            cin >> x >> y;
+
+            if (x >= 0) quad[0]++;
+            if (x <= 0) quad[1]++;
+            if (y >= 0) quad[2]++;
+            if (y <= 0) quad[3]++;
+        }
+
+        bool can = false;
+        for (int i = 0; i < 4; i++) {
+            if (quad[i] == n) can = true;
+        }
+        if (can) cout << "YES\n";
+        else cout << "NO\n";
+
     }
 }
