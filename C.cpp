@@ -21,33 +21,5 @@ int32_t main() {
         int n;
         cin >> n;
 
-        set<int> l;
-        for (int i = 0; i < n; i++) {
-            int x;
-            cin >> x;
-            l.insert(-x);
-        }
-
-        vector<int> r(n);
-        for (int i = 0; i < n; i++) cin >> r[i];
-        sort(r.begin(), r.end());
-
-        vector<int> c(n);
-        for (int i = 0; i < n; i++) cin >> c[i];
-        sort(c.begin(), c.end(), greater<int>());
-
-        int total = 0;
-        vector<int> ranges;
-        for (int rightmost : r) {
-            int left = *l.upper_bound(-rightmost);
-
-            ranges.push_back(rightmost + left);
-
-            l.erase(left);
-        }
-        sort(ranges.begin(), ranges.end());
-        for (int i = 0; i < n; i++) total += c[i] * ranges[i];
-
-        cout << total << '\n';
     }
 }
