@@ -14,12 +14,21 @@ int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int tt;
-    cin >> tt;
+    int v1, v2, t, d;
+    cin >> v1 >> v2 >> t >> d;
 
-    while (tt--) {
-        int n;
-        cin >> n;
-
+    vector<int> max_val(t);
+    max_val[t - 1] = v2;
+    for (int i = t - 2; i >= 0; i--) {
+        max_val[i] = max_val[i + 1] + d;
     }
+
+    int speed = v1;
+    int total = 0;
+    for (int i = 0; i < t; i++) {
+        total += speed;
+//        cout << speed << '\n';
+        speed = min(speed + d, max_val[i + 1]);
+    }
+    cout << total << '\n';
 }
