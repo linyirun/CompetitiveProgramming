@@ -1,1 +1,4 @@
-Test\ Files/*
+Text\ Files/*
+*.txt
+cmake-build-debug
+*.log
