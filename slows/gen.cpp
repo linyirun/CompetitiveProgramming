@@ -10,21 +10,32 @@ using namespace std;
 const int MOD = 1000000007;
 const int INF = 1e15;
 
-int32_t main() {
+// Returns a random number in [a, b]
+int rand(int a, int b) {
+    return a + rand() % (b - a + 1);
+}
+
+int32_t main(int32_t argc, char* argv[]) {
+    srand(stoi(argv[1]));
+
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    freopen("tests.txt", "w", stdout);
+    int n = rand(1, 4);
+    int m = rand(1, 3);
 
-    int tests = 1000;
-
-    cout << tests << '\n';
-    for (int i = 0; i < tests; i++) {
-        int n = 4;
-        cout << n << '\n';
-        for (int j = 0; j < n; j++) {
-            cout << rand() % 5 + 1 << ' ';
-        }
-        cout << '\n';
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        a[i] = i + 1;
     }
+
+    shuffle(a.begin(), a.end(), random_device());
+    cout << n << ' ' << m << '\n';
+    for (int i : a) cout << i << ' ';
+    cout << '\n';
+    for (int i = 0; i < m; i++) {
+        int a = rand(1, n), b = rand(1, n);
+        cout << a << ' ' << b << '\n';
+    }
+
 }

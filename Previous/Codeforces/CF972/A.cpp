@@ -16,19 +16,18 @@ int32_t main() {
 
     int tt;
     cin >> tt;
-
+    vector<char> ch = {'a', 'e', 'i', 'o', 'u'};
     while (tt--) {
         int n;
         cin >> n;
-        vector<int> a(n);
-        for (int i = 0; i < n; i++) cin >> a[i];
-//        sort(a.begin(), a.end());
-        bool can = false;
-        for (int i = 1; i < n; i++) {
-            if (max(a[i], a[i - 1]) < min(a[i - 1], a[i]) * 2) can = true;
-        }
-        if (can) cout << "YES\n";
-        else cout << "NO\n";
-    }
 
+        for (int i = 0; i < 5; i++) {
+            int take = n / 5;
+            if (i < n % 5) take++;
+            for (int j = 0; j < take; j++) {
+                cout << ch[i];
+            }
+        }
+        cout << '\n';
+    }
 }

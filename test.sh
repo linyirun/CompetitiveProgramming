@@ -1,10 +1,17 @@
 #!/bin/bash
 
-file1="/Users/billlin/Desktop/Competitive Programming"
-file2="/Users/billlin/Desktop/Competitive Programming/input.txt"
+# Compile
+sol_path="$1"
 
-if cmp -s "$file1" "$file2"; then
-    printf 'The file "%s" is the same as "%s"\n' "$file1" "$file2"
-else
-    printf 'The file "%s" is different from "%s"\n' "$file1" "$file2"
-fi
+g++ "$sol_path" -o "./slows/sol"
+g++ "./slows/slow.cpp" -o "./slows/slow"
+g++ -std=c++20 "./slows/gen.cpp" -o "./slows/gen"
+
+# shellcheck disable=SC1073
+for((i = 1; ; i++)); do
+  echo $i
+  ./slows/gen $i > ./slows/test.txt
+  ./slows/slow < ./slows/test.txt > ./slows/slow_sol.txt
+  ./slows/sol < ./slows/test.txt > ./slows/sol.txt
+  diff -w ./slows/sol.txt ./slows/slow_sol.txt || break
+done

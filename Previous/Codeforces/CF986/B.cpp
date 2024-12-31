@@ -18,17 +18,20 @@ int32_t main() {
     cin >> tt;
 
     while (tt--) {
-        int n;
-        cin >> n;
-        vector<int> a(n);
-        for (int i = 0; i < n; i++) cin >> a[i];
-//        sort(a.begin(), a.end());
-        bool can = false;
-        for (int i = 1; i < n; i++) {
-            if (max(a[i], a[i - 1]) < min(a[i - 1], a[i]) * 2) can = true;
-        }
-        if (can) cout << "YES\n";
-        else cout << "NO\n";
-    }
+        int n, b, c;
+        cin >> n >> b >> c;
 
+        if (b == 0) {
+            if (c >= n - 2) {
+                cout << n - (c < n) << '\n';
+            }
+            else cout << "-1\n";
+            continue;
+        }
+
+        int mult = (n - c - 1) / b + 1;
+        if (c >= n) mult = 0;
+        cout << n - min(mult, n) << '\n';
+
+    }
 }

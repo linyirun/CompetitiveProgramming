@@ -10,70 +10,89 @@ using namespace std;
 const int MOD = 1000000007;
 const int INF = 1e15;
 
-vector<int> order(26);
-int ptr = 0;
-bool can = true;
+vector<int> dp;
+vector<vector<int>> adj;
+vector<int> deg;
+vector<bool> has_leaf_neighbor;
+int total = 0;
 
-vector<vector<int>> adj(26);
-
-vector<bool> vis(26), in_stack(26);
-
-void dfs(int node) {
-    // to topological sort this graph, and place it into order
-    in_stack[node] = true;
-    for (int child : adj[node]) {
-        if (in_stack[child]) {
-            can = false;
-            return;
-        } else if (!vis[child]) dfs(child);
+int dfs1(int node, int par) {
+    if (!has_leaf_neighbor[node]) dp[node]++;
+    for (int u : adj[node]) {
+        if (u != par) {
+            dp[node] += dfs1(u, node);
+        }
     }
-    order[ptr++] = node;
-    in_stack[node] = false;
-    vis[node] = true;
+    return dp[node];
+}
+
+void reroot(int node, int par) {
+    if (node == 11) {
+        cout << "hi\n";
+    }
+    if (has_leaf_neighbor[node]) {
+        // Can contribute to the total
+
+//        int num_non_winning = 0;
+        int sum_dp = 0;
+        for (int u : adj[node]) {
+            sum_dp += dp[u];
+        }
+        for (int u : adj[node]) {
+            total += sum_dp - dp[u];
+        }
+
+//        total += num_non_winning * sum_dp - sum_dp;
+    }
+
+    // Reroot
+    for (int v : adj[node]) {
+        if (v != par) {
+            dp[node] -= dp[v];
+            reroot(v, node);
+            dp[node] += dp[v];
+        }
+    }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    cin >> n;
+    int tt;
+    cin >> tt;
 
-    vector<string> strs(n);
-    for (int i = 0; i < n; i++) cin >> strs[i];
+    while (tt--) {
+        int n;
+        cin >> n;
 
-    for (int i = 1; i < n; i++) {
-        for (int j = 0; j <= min(strs[i].size(), strs[i - 1].size()); j++) {
-            if (j == min(strs[i].size(), strs[i - 1].size())){
-                if (strs[i - 1].size() > strs[i].size()) can = false;
-                else break;
-            }
-
-            if (strs[i][j] != strs[i - 1][j]) {
-                // then this means that strs[i - 1][j] < strs[i][j];
-                int first_char = strs[i - 1][j] - 'a';
-                int second_char = strs[i][j] - 'a';
-//                cout << first_char << ' ' << second_char << '\n';
-                adj[second_char].push_back(first_char);
-
-
-                break; // go to next
+        total = 0;
+        dp = vector<int>(n);
+        adj.clear();
+        adj = vector<vector<int>>(n);
+        deg = vector<int>(n);
+        has_leaf_neighbor = vector<bool>(n);
+        for (int i = 0; i < n - 1; i++) {
+            int u, v;
+            cin >> u >> v;
+            u--, v--;
+            deg[u]++;
+            deg[v]++;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        int num_leaves = 0;
+        for (int i = 0; i < n; i++) {
+            if (deg[i] == 1) num_leaves++;
+            for (int u : adj[i]) {
+                if (deg[u] == 1 || deg[i] == 1) has_leaf_neighbor[i] = true;
             }
         }
+
+        dfs1(0, 0);
+        reroot(0, 0);
+
+
+        cout << total + num_leaves * (n - num_leaves) << '\n';
     }
-
-    for (int i = 0; i < 26; i++) {
-        if (!vis[i]) dfs(i);
-    }
-
-    if (!can) {
-        cout << "Impossible\n";
-        return 0;
-    }
-
-    for (int i = 0; i < 26; i++) {
-        cout << (char) (order[i] + 'a');
-    }
-
-
 }

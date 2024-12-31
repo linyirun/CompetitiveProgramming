@@ -10,54 +10,40 @@ using namespace std;
 const int MOD = 1000000007;
 const int INF = 1e15;
 
+int k;
+
+pii recur(int sz) {
+    if (sz < k) {
+        return {0, 0};
+    }
+    int mp = sz / 2;
+    pii res = recur(mp);
+    int split = mp;
+    if (sz % 2 == 1) split = (sz + 1) / 2;
+
+    int ret = 2 * res.first + split * res.second;
+    int odd_cnt = res.second * 2;
+
+    if (sz % 2 == 1) {
+        odd_cnt++;
+        ret += split;
+    }
+    return {ret, odd_cnt};
+}
+
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n, m;
-    cin >> n >> m;
+    int tt;
+    cin >> tt;
 
-    vector<vector<bool>> grid(n, vector<bool>(m));
-    vector<vector<int>> rows(n), cols(m);
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            int x;
-            cin >> x;
-            grid[i][j] = x;
-            if (x) {
-                rows[i].push_back(j);
-                cols[j].push_back(i);
-            }
-        }
+    while (tt--) {
+        int n;
+        cin >> n >> k;
+
+        pii res = recur(n);
+        cout << res.first << '\n';
+
     }
-
-    int cnt = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (grid[i][j]) continue;
-
-            // check right
-            if (std::lower_bound(rows[i].begin(), rows[i].end(), j) != rows[i].end()) {
-//                cout << i << ", " << j << " 1\n";
-                cnt++;
-            }
-            // check left
-            if (std::lower_bound(rows[i].begin(), rows[i].end(), j) != rows[i].begin()) {
-//                cout << i << ", " << j << " 2\n";
-                cnt++;
-            }
-
-            if (std::lower_bound(cols[j].begin(), cols[j].end(), i) != cols[j].end()) {
-//                cout << i << ", " << j << " 3\n";
-                cnt++;
-            }
-            // check down
-            if (std::lower_bound(cols[j].begin(), cols[j].end(), i) != cols[j].begin()) {
-//                cout << i << ", " << j << " 4\n";
-                cnt++;
-            }
-
-        }
-    }
-    cout << cnt << '\n';
 }

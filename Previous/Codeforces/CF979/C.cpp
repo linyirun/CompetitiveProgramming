@@ -20,15 +20,16 @@ int32_t main() {
     while (tt--) {
         int n;
         cin >> n;
-        vector<int> a(n);
-        for (int i = 0; i < n; i++) cin >> a[i];
-//        sort(a.begin(), a.end());
+
+        string s;
+        cin >> s;
+
         bool can = false;
-        for (int i = 1; i < n; i++) {
-            if (max(a[i], a[i - 1]) < min(a[i - 1], a[i]) * 2) can = true;
+        if (s[0] == '1' || s[n - 1] == '1') can = true;
+        for (int i = 0; i < n - 1; i++) {
+            if (s[i] == '1' && s[i + 1] == '1') can = true;
         }
         if (can) cout << "YES\n";
         else cout << "NO\n";
     }
-
 }
